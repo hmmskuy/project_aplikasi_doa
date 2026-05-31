@@ -143,7 +143,6 @@ HAMM❤️RA dibuat untuk membantu pengguna:
 
 Data yang digunakan pada aplikasi saat ini masih berupa dummy data untuk kebutuhan pembelajaran dan pengembangan UI/UX Flutter.
 
-
-<img width="1536" height="1024" alt="aplikasi _doa hamm❤️ra" src="https://github.com/user-attachments/assets/caecb963-8373-4f8a-93ea-9cb925493db4" />
+<img width="1672" height="941" alt="thumbnel" src="https://github.com/user-attachments/assets/78bc4b17-4103-419e-a3d8-ce169ba5d20c" />
 
 
