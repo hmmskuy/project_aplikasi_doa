@@ -154,6 +154,112 @@ class _PrayerTimePageState extends State<PrayerTimePage> {
     "Biak": {"lat": -1.0381, "lng": 136.0827},
     "Merauke": {"lat": -8.4932, "lng": 140.4018},
     "Nabire": {"lat": -3.3667, "lng": 135.4833},
+
+    // MALAYSIA
+    "Kuala Lumpur": {"lat": 3.1390, "lng": 101.6869},
+    "Johor Bahru": {"lat": 1.4927, "lng": 103.7414},
+    "Penang": {"lat": 5.4164, "lng": 100.3327},
+    "Ipoh": {"lat": 4.5975, "lng": 101.0901},
+    "Kuching": {"lat": 1.5533, "lng": 110.3592},
+    "Kota Kinabalu": {"lat": 5.9804, "lng": 116.0735},
+
+    // SINGAPORE
+    "Singapore": {"lat": 1.3521, "lng": 103.8198},
+
+    // BRUNEI
+    "Bandar Seri Begawan": {"lat": 4.9031, "lng": 114.9398},
+
+    // THAILAND
+    "Bangkok": {"lat": 13.7563, "lng": 100.5018},
+    "Chiang Mai": {"lat": 18.7883, "lng": 98.9853},
+    "Phuket": {"lat": 7.8804, "lng": 98.3923},
+    "Pattaya": {"lat": 12.9236, "lng": 100.8825},
+    "Krabi": {"lat": 8.0863, "lng": 98.9063},
+
+    // VIETNAM
+    "Hanoi": {"lat": 21.0278, "lng": 105.8342},
+    "Ho Chi Minh City": {"lat": 10.8231, "lng": 106.6297},
+    "Da Nang": {"lat": 16.0544, "lng": 108.2022},
+    "Hue": {"lat": 16.4637, "lng": 107.5909},
+
+    // PHILIPPINES
+    "Manila": {"lat": 14.5995, "lng": 120.9842},
+    "Quezon City": {"lat": 14.6760, "lng": 121.0437},
+    "Cebu": {"lat": 10.3157, "lng": 123.8854},
+    "Davao": {"lat": 7.1907, "lng": 125.4553},
+
+    // CAMBODIA
+    "Phnom Penh": {"lat": 11.5564, "lng": 104.9282},
+    "Siem Reap": {"lat": 13.3633, "lng": 103.8564},
+
+    // LAOS
+    "Vientiane": {"lat": 17.9757, "lng": 102.6331},
+    "Luang Prabang": {"lat": 19.8833, "lng": 102.1333},
+
+    // MYANMAR
+    "Yangon": {"lat": 16.8409, "lng": 96.1735},
+    "Mandalay": {"lat": 21.9588, "lng": 96.0891},
+    "Naypyidaw": {"lat": 19.7633, "lng": 96.0785},
+
+    // CHINA
+    "Beijing": {"lat": 39.9042, "lng": 116.4074},
+    "Shanghai": {"lat": 31.2304, "lng": 121.4737},
+    "Guangzhou": {"lat": 23.1291, "lng": 113.2644},
+    "Shenzhen": {"lat": 22.5431, "lng": 114.0579},
+    "Chengdu": {"lat": 30.5728, "lng": 104.0668},
+    "Wuhan": {"lat": 30.5928, "lng": 114.3055},
+    "Nanjing": {"lat": 32.0603, "lng": 118.7969},
+    "Tianjin": {"lat": 39.3434, "lng": 117.3616},
+    "Hangzhou": {"lat": 30.2741, "lng": 120.1551},
+    "Xian": {"lat": 34.3416, "lng": 108.9398},
+
+    // JAPAN
+    "Tokyo": {"lat": 35.6762, "lng": 139.6503},
+    "Osaka": {"lat": 34.6937, "lng": 135.5023},
+    "Kyoto": {"lat": 35.0116, "lng": 135.7681},
+    "Nagoya": {"lat": 35.1815, "lng": 136.9066},
+    "Sapporo": {"lat": 43.0618, "lng": 141.3545},
+    "Kobe": {"lat": 34.6901, "lng": 135.1955},
+    "Fukuoka": {"lat": 33.5904, "lng": 130.4017},
+    "Yokohama": {"lat": 35.4437, "lng": 139.6380},
+
+    // SOUTH KOREA
+    "Seoul": {"lat": 37.5665, "lng": 126.9780},
+    "Busan": {"lat": 35.1796, "lng": 129.0756},
+    "Incheon": {"lat": 37.4563, "lng": 126.7052},
+    "Daegu": {"lat": 35.8714, "lng": 128.6014},
+    "Daejeon": {"lat": 36.3504, "lng": 127.3845},
+
+    // INDIA
+    "New Delhi": {"lat": 28.6139, "lng": 77.2090},
+    "Mumbai": {"lat": 19.0760, "lng": 72.8777},
+    "Bangalore": {"lat": 12.9716, "lng": 77.5946},
+    "Chennai": {"lat": 13.0827, "lng": 80.2707},
+    "Hyderabad": {"lat": 17.3850, "lng": 78.4867},
+    "Kolkata": {"lat": 22.5726, "lng": 88.3639},
+    "Pune": {"lat": 18.5204, "lng": 73.8567},
+    "Ahmedabad": {"lat": 23.0225, "lng": 72.5714},
+    "Jaipur": {"lat": 26.9124, "lng": 75.7873},
+    "Lucknow": {"lat": 26.8467, "lng": 80.9462},
+    "Surat": {"lat": 21.1702, "lng": 72.8311},
+    "Bhopal": {"lat": 23.2599, "lng": 77.4126},
+
+    // PAKISTAN
+    "Karachi": {"lat": 24.8607, "lng": 67.0011},
+    "Lahore": {"lat": 31.5204, "lng": 74.3587},
+    "Islamabad": {"lat": 33.6844, "lng": 73.0479},
+
+    // BANGLADESH
+    "Dhaka": {"lat": 23.8103, "lng": 90.4125},
+    "Chittagong": {"lat": 22.3569, "lng": 91.7832},
+
+    // SRI LANKA
+    "Colombo": {"lat": 6.9271, "lng": 79.8612},
+    "Kandy": {"lat": 7.2906, "lng": 80.6337},
+
+    // NEPAL
+    "Kathmandu": {"lat": 27.7172, "lng": 85.3240},
+    "Pokhara": {"lat": 28.2096, "lng": 83.9856},
   };
 
   @override
