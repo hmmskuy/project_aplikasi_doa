@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CatatanPribadiPage extends StatefulWidget {
-  const CatatanPribadiPage({Key? key}) : super(key: key);
+  const CatatanPribadiPage({super.key});
 
   @override
   State<CatatanPribadiPage> createState() => _CatatanPribadiPageState();
@@ -11,6 +11,7 @@ class CatatanPribadiPage extends StatefulWidget {
 
 class _CatatanPribadiPageState extends State<CatatanPribadiPage> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   List<Map<String, String>> notes = [];
 
@@ -20,9 +21,16 @@ class _CatatanPribadiPageState extends State<CatatanPribadiPage> {
     loadNotes();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   Future<void> saveNotes() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('notes', jsonEncode(notes));
+    await prefs.setString('notes', jsonEncode(notes));
   }
 
   Future<void> loadNotes() async {
@@ -32,7 +40,7 @@ class _CatatanPribadiPageState extends State<CatatanPribadiPage> {
     if (data != null) {
       setState(() {
         notes = List<Map<String, String>>.from(
-          jsonDecode(data).map((x) => Map<String, String>.from(x)),
+          jsonDecode(data).map((e) => Map<String, String>.from(e)),
         );
       });
     }
@@ -41,15 +49,19 @@ class _CatatanPribadiPageState extends State<CatatanPribadiPage> {
   void addNote() {
     if (_controller.text.trim().isEmpty) return;
 
+    final now = DateTime.now();
+
     setState(() {
       notes.insert(0, {
-        'title': _controller.text,
-        'date': DateTime.now().day.toString() + " Mei 2026",
+        'title': _controller.text.trim(),
+        'date': '${now.day}/${now.month}/${now.year}',
       });
     });
 
     saveNotes();
     _controller.clear();
+
+    FocusScope.of(context).unfocus();
   }
 
   void deleteNote(int index) {
@@ -76,226 +88,204 @@ class _CatatanPribadiPageState extends State<CatatanPribadiPage> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
-          child: Column(
-            children: [
-              /// HEADER
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF163B63),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 65,
-                      height: 65,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [Colors.cyan, Colors.teal],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF163B63),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 65,
+                        height: 65,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [Colors.cyan, Colors.teal],
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.menu_book,
+                          color: Colors.white,
+                          size: 30,
                         ),
                       ),
-                      child: const Icon(
-                        Icons.menu_book,
-                        color: Colors.white,
-                        size: 30,
+                      const SizedBox(width: 16),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Catatan Islami",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Simpan doa dan target ibadahmu",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-
-                    const SizedBox(width: 16),
-
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Catatan Islami",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        SizedBox(height: 5),
-
-                        Text(
-                          "Simpan doa dan target ibadahmu",
-                          style: TextStyle(color: Colors.white70, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 18),
+                const SizedBox(height: 18),
 
-              /// LIST CATATAN
-              ListView.builder(
-                itemCount: notes.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 14),
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF163B63),
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /// ICON
-                        Container(
-                          width: 52,
-                          height: 52,
-                          decoration: BoxDecoration(
-                            color: Colors.cyan.withOpacity(0.15),
-                            shape: BoxShape.circle,
+                ListView.builder(
+                  itemCount: notes.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 14),
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF163B63),
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              color: Colors.cyan.withOpacity(0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.edit_note,
+                              color: Colors.cyan,
+                              size: 28,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.edit_note,
-                            color: Colors.cyan,
-                            size: 28,
-                          ),
-                        ),
-
-                        const SizedBox(width: 14),
-
-                        /// TEXT
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      notes[index]['title'] ?? '',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold,
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        notes[index]['title'] ?? '',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-
-                                  IconButton(
-                                    onPressed: () {
-                                      deleteNote(index);
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete_outline,
-                                      color: Colors.redAccent,
+                                    IconButton(
+                                      onPressed: () => deleteNote(index),
+                                      icon: const Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.red,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-
-                              Text(
-                                notes[index]['date'] ?? '',
-                                style: const TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: 14,
+                                  ],
                                 ),
-                              ),
-
-                              const SizedBox(height: 12),
-
-                              // const Text(
-                              //   "Ya Allah, lindungi keluargaku dan berikan kebahagiaan dunia akhirat.",
-                              //   style: TextStyle(
-                              //     color: Colors.white70,
-                              //     fontSize: 17,
-                              //   ),
-                              // ),
-                            ],
+                                Text(
+                                  notes[index]['date'] ?? '',
+                                  style: const TextStyle(color: Colors.white54),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 10),
-
-              /// INPUT CATATAN
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF163B63),
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                child: Column(
-                  children: [
-                    /// TEXTFIELD
-                    TextField(
-                      controller: _controller,
-                      style: const TextStyle(color: Colors.white),
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        hintText: "Tulis catatan baru...",
-                        hintStyle: const TextStyle(color: Colors.white54),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.06),
-
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 14,
-                        ),
-
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide.none,
-                        ),
+                        ],
                       ),
-                    ),
+                    );
+                  },
+                ),
 
-                    const SizedBox(height: 14),
+                const SizedBox(height: 10),
 
-                    /// BUTTON
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: addNote,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.cyan,
-                          shape: RoundedRectangleBorder(
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF163B63),
+                    borderRadius: BorderRadius.circular(22),
+                  ),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.newline,
+                        maxLines: 5,
+                        style: const TextStyle(color: Colors.white),
+                        cursorColor: Colors.cyan,
+                        decoration: InputDecoration(
+                          hintText: "Tulis catatan baru...",
+                          hintStyle: const TextStyle(color: Colors.white54),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.06),
+                          contentPadding: const EdgeInsets.all(16),
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Text(
-                          "Simpan Catatan",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      const SizedBox(height: 14),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: addNote,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cyan,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            "Simpan Catatan",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
