@@ -111,7 +111,6 @@ HAMM❤️RA menggunakan desain modern dengan:
 
 * Flutter
 * Dart
-* SharedPreferences
 * Material Design
 * Responsive UI Layout
 
@@ -123,7 +122,6 @@ Aplikasi dapat dijalankan pada:
 
 * Android
 * iOS
-* Web Flutter
 
 ---
 
